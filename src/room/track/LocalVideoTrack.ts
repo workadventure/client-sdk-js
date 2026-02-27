@@ -116,12 +116,12 @@ export default class LocalVideoTrack extends LocalTrack<Track.Kind.Video> {
     }, monitorFrequency);
   }
 
-  stop() {
+  stopMonitor() {
     this._mediaStreamTrack.getConstraints();
     this.simulcastCodecs.forEach((trackInfo) => {
       trackInfo.mediaStreamTrack.stop();
+      trackInfo.sender?.replaceTrack(null);
     });
-    super.stop();
   }
 
   async pauseUpstream() {
