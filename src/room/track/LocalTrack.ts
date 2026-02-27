@@ -443,11 +443,20 @@ export default abstract class LocalTrack<
     this.manuallyStopped = true;
     super.stop();
 
+    this.processor?.destroy();
+    this.processor = undefined;
+  }
+
+  stopMonitor() {
+    super.stopMonitor();
+
     this._mediaStreamTrack.removeEventListener('ended', this.handleEnded);
     this._mediaStreamTrack.removeEventListener('mute', this.handleTrackMuteEvent);
     this._mediaStreamTrack.removeEventListener('unmute', this.handleTrackUnmuteEvent);
-    this.processor?.destroy();
-    this.processor = undefined;
+
+    if (this.sender?.transport?.state !== 'closed') {
+      this.sender?.replaceTrack(null);
+    }
   }
 
   /**
