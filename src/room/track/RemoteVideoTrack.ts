@@ -410,6 +410,7 @@ class HTMLElementInfo implements ElementInfo {
 }
 
 function isElementInPiP(el: HTMLElement) {
+  console.log('isElementInPiP', el);
   // Simple video PiP
   if (document.pictureInPictureElement === el) return true;
   // Document PiP
